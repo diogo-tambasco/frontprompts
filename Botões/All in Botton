@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reprodução de Botão</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Animação para a seta */
+        @keyframes bounce-right {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+
+        /* Animação Shimmer */
+        @keyframes shinery {
+            0%, 100% {
+                left: -20%;
+                opacity: 0;
+            }
+            20% { opacity: 1; }
+            48% {
+                left: 140%;
+                opacity: 1;
+            }
+            51% { opacity: 0; }
+        }
+
+        /* Estilos específicos para corrigir o bug de bordas quadradas */
+        .fix-rounded-overflow {
+            /* Força a renderização de hardware para manter o recorte arredondado */
+            transform: translateZ(0);
+            -webkit-mask-image: -webkit-radial-gradient(white, black);
+            isolation: isolate;
+        }
+
+        .shimmer-effect {
+            content: '';
+            background: linear-gradient(10deg, #D1D2EA 12.81%, rgba(209, 210, 234, 0.00) 66.66%);
+            mix-blend-mode: overlay;
+            width: 120px;
+            height: 200%;
+            position: absolute;
+            top: -50%;
+            transform: translateX(-50%) skew(-25deg);
+            user-select: none;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 5;
+        }
+
+        .group:hover .shimmer-effect {
+            animation: shinery 4s infinite ease-in-out;
+        }
+
+        .group:hover .arrow-icon {
+            animation: bounce-right 1s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Adicionada a classe 'fix-rounded-overflow' para garantir que as bordas fiquem sempre redondas -->
+    <button class="group fix-rounded-overflow flex gap-3 overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_rgba(255,255,255,0.1)] hover:translate-y-[-1px] active:scale-[0.98] active:shadow-none bg-white rounded-full pt-5 pr-10 pb-5 pl-12 relative shadow-[0_8px_30px_rgba(0,0,0,0.04)] items-center justify-center">
+
+        <!-- Círculo Expansível -->
+        <div class="absolute left-5 z-0 h-3 w-3 rounded-full bg-black transition-all duration-[1300ms] ease-[cubic-bezier(0.86,0,0.07,1)] group-hover:scale-[80] group-hover:bg-[#1A5CFF]"></div>
+        
+        <!-- Camada de Shimmer -->
+        <div class="shimmer-effect"></div>
+
+        <!-- Texto -->
+        <span class="relative z-10 text-lg font-semibold tracking-normal text-black uppercase transition-colors duration-300 group-hover:text-white">
+            All In Botton
+        </span>
+
+        <!-- Ícone da Seta -->
+        <div class="relative z-10 flex w-0 translate-x-4 items-center justify-center overflow-hidden opacity-0 transition-all duration-300 ease-[cubic-bezier(0.86,0,0.07,1)] group-hover:w-6 group-hover:translate-x-0 group-hover:opacity-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="width: 28px; height: 28px; color: rgb(255, 255, 255)" class="lucide lucide-arrow-right arrow-icon text-white stroke-[1.5] w-[28px] h-[28px]" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <g fill="none" stroke="#ffffff" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="10" opacity=".5"></circle>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h8m0 0l-3-3m3 3l-3 3"></path>
+                </g>
+            </svg>
+        </div>
+
+    </button>
+
+</body>
+</html>
