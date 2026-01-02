@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Animações */
+        @keyframes rotate-gradient {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes borderBeamRotation {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes shinery {
+            0%, 100% {
+                left: -20%;
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            48% {
+                left: 140%;
+                opacity: 1;
+            }
+            51% {
+                opacity: 0;
+            }
+        }
+
+        body {
+            background-color: #05060f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Sora', sans-serif;
+        }
+
+        .aura-button {
+            --speed: 4s;
+            --blue-baby: #A9DDF7;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            /* Fix para overflow em cantos arredondados */
+            -webkit-mask-image: -webkit-radial-gradient(white, black);
+        }
+
+        .aura-button:hover {
+            --speed: 2.2s;
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px -5px rgba(169, 221, 247, 0.3);
+        }
+
+        /* Efeito da Onda (Shinery) corrigido para ficar dentro */
+        .shimmer-onda {
+            content: '';
+            background: linear-gradient(10deg, #D1D2EA 12.81%, rgba(209, 210, 234, 0.00) 66.66%);
+            mix-blend-mode: overlay;
+            width: 90px;
+            height: 150%; /* Reduzido levemente para evitar sangramento vertical */
+            position: absolute;
+            top: -25%; 
+            transform: translateX(-50%) skew(-25deg);
+            user-select: none;
+            pointer-events: none;
+            animation: shinery 6s infinite ease-in-out;
+            z-index: 4;
+        }
+
+        .fundo-white {
+            position: absolute;
+            left: 5px;
+            width: 0%;
+            height: calc(100% - 10px);
+            background: #ffffff;
+            border-radius: 100px;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 6;
+            opacity: 0;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
+        }
+
+        .aura-button:hover .fundo-white {
+            width: calc(100% - 10px);
+            opacity: 1;
+        }
+
+        .wrapper-icones {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            border-radius: 50%;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 2px 8px rgba(30, 58, 138, 0.2);
+        }
+
+        .aura-button:hover .wrapper-icones {
+            left: calc(100% - 44px);
+        }
+
+        .texto-principal {
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            opacity: 1;
+            transform: translateX(12px);
+            z-index: 10;
+            color: #1e3a8a;
+        }
+
+        .texto-hover {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) translateX(25px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            color: #1e3a8a; 
+            font-weight: 600;
+            z-index: 10;
+        }
+
+        .aura-button:hover .texto-principal {
+            opacity: 0;
+            transform: translateX(-40px);
+        }
+
+        .aura-button:hover .texto-hover {
+            opacity: 1;
+            transform: translate(-50%, -50%) translateX(-12px);
+        }
+
+        /* Shimmer circular */
+        .shimmer-container {
+            position: absolute;
+            inset: -200%;
+            width: 400%;
+            height: 400%;
+            animation: rotate-gradient var(--speed) linear infinite;
+        }
+
+        .shimmer-gradient {
+            position: absolute;
+            inset: 0;
+            background: conic-gradient(
+                from 225deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.8) 10%, 
+                transparent 20%
+            );
+        }
+
+        .bottom-glow {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 40%;
+            background: radial-gradient(circle at bottom, rgba(255, 255, 255, 0.6) 0%, transparent 70%);
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+<a href="javascript:void(0)"
+  class="aura-button group isolate inline-flex items-center min-w-[240px] h-[58px] cursor-pointer overflow-hidden rounded-full relative bg-[#A9DDF7]"
+  style="--spread: 90deg;">
+  
+  <!-- Camada de Shimmer Circular (Aura) -->
+  <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-60">
+    <div class="shimmer-container">
+      <div class="shimmer-gradient"></div>
+    </div>
+  </div>
+
+  <!-- Camada de Onda (Fixada dentro do overflow) -->
+  <div class="shimmer-onda"></div>
+
+  <!-- Borda de brilho suave -->
+  <div class="absolute inset-0 z-0 pointer-events-none opacity-40">
+    <div style="position: absolute; width: 150%; height: 150%; background: linear-gradient(90deg, transparent, #ffffff, transparent); animation: borderBeamRotation var(--speed) infinite linear; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+  </div>
+
+  <!-- Fundo azul bebê com mini degradê -->
+  <div class="absolute inset-[1.5px] bg-gradient-to-b from-[#BEE9FF] via-[#A9DDF7] to-[#9CD4F0] rounded-full z-1"></div>
+
+  <!-- Esfumaçado radial na parte de baixo -->
+  <div class="bottom-glow"></div>
+
+  <!-- Fundo branco de hover -->
+  <div class="fundo-white"></div>
+
+  <!-- Ícone móvel -->
+  <div class="wrapper-icones">
+    <div class="w-1.5 h-1.5 bg-white rounded-full group-hover:hidden"></div>
+    <svg xmlns="http://www.w3.org/2000/svg" class="hidden group-hover:block w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </div>
+
+  <!-- Textos -->
+  <div class="relative z-10 w-full h-full flex items-center justify-center px-10">
+    <span class="texto-principal whitespace-nowrap font-normal tracking-wide">
+        Aura Botton
+    </span>
+
+    <span class="texto-hover whitespace-nowrap">
+        Curtiu?
+    </span>
+  </div>
+</a>
+
+</body>
+</html>
