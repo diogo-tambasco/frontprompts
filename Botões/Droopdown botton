@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Tailwind (CDN build is fine for quick paste) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Optional font to match the original -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ---------- Estilos principais ---------- */
+    .btn-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .btn {
+      --border-radius: 24px;
+      --padding: 4px;
+      --transition: 0.4s;
+      --button-color: #101010;
+      /* Mudado para tons de branco/neutro */
+      --glow-color: rgba(255, 255, 255, 0.8); 
+
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      position: relative;
+
+      background-color: var(--button-color);
+
+      /* Sombras complexas e profundidade inicial */
+      box-shadow:
+        inset 0px 1px 1px rgba(255, 255, 255, 0.2),
+        inset 0px 2px 2px rgba(255, 255, 255, 0.15),
+        inset 0px 4px 4px rgba(255, 255, 255, 0.1),
+        inset 0px 8px 8px rgba(255, 255, 255, 0.05),
+        0px -1px 1px rgba(0, 0, 0, 0.02),
+        0px -4px 4px rgba(0, 0, 0, 0.05),
+        0px -16px 16px rgba(0, 0, 0, 0.08);
+
+      border: solid 1px #ffffff22;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    /* Brilho externo */
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: calc(var(--padding) * -1);
+      border-radius: calc(var(--border-radius) + var(--padding));
+      pointer-events: none;
+      background-image: linear-gradient(0deg, #0004, #000a);
+      z-index: -1;
+      transition: all var(--transition);
+      box-shadow:
+        1px 1px 1px #fff2,
+        -1px -1px 1px #0002;
+    }
+
+    /* Overlay de brilho no hover (Branco Forte) */
+    .btn::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background-image: linear-gradient(0deg,
+          rgba(255, 255, 255, 0.5),
+          rgba(255, 255, 255, 0.2),
+          transparent 40%);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .btn-letter {
+      position: relative;
+      display: inline-block;
+      color: #ffffff77;
+      animation: letter-anim 2s ease-in-out infinite;
+      transition: all var(--transition);
+      font-weight: 600;
+    }
+
+    @keyframes letter-anim {
+      50% {
+        text-shadow: 0 0 3px #ffffff88;
+        color: #fff;
+      }
+    }
+
+    /* Logo "X" Estilizada */
+    .btn-svg {
+      height: 20px;
+      width: 20px;
+      margin-right: 12px;
+      flex-shrink: 0;
+      stroke: #e8e8e8;
+      stroke-width: 4;
+      stroke-linecap: round;
+      animation: flicker 3s linear infinite;
+      transition: all var(--transition);
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; filter: drop-shadow(0 0 2px #fff9); }
+      50% { opacity: 0.6; filter: drop-shadow(0 0 1px #fff4); }
+    }
+
+    .txt-wrapper {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .txt-1 {
+      display: flex;
+      position: relative;
+    }
+
+    /* Efeito de Focus/Click */
+    .btn:focus .btn-letter, .btn:focus-visible .btn-letter {
+      animation: focused-letter-anim 1s ease-in-out forwards, letter-anim 1.2s ease-in-out infinite;
+      animation-delay: 0s, 1s;
+    }
+
+    @keyframes focused-letter-anim {
+      50% {
+        transform: scale(1.15);
+        filter: brightness(180%) drop-shadow(0 0 8px #fff);
+      }
+    }
+
+    .btn-letter:nth-child(n) { animation-delay: calc(var(--i) * 0.08s); }
+
+    /* Estados de Interação - Mudado para Branco Forte com Sombra Inferior */
+    .btn:hover {
+      border-color: rgba(255, 255, 255, 0.7);
+      background-color: #1a1a1a;
+      /* Adicionada sombra externa branca na parte inferior (0px 12px 25px -10px) */
+      box-shadow: 
+        0px 12px 25px -10px rgba(255, 255, 255, 0.5),
+        0 0 15px rgba(255, 255, 255, 0.1),
+        inset 0px 1px 1px rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px); /* Pequeno levante para enfatizar a sombra embaixo */
+    }
+
+    .btn:hover .btn-svg {
+      stroke: #fff;
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
+    }
+
+    .btn:hover .btn-letter {
+      color: #fff;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+
+    .btn:hover::after { opacity: 0.4; }
+
+    .btn:active {
+      transform: scale(0.97) translateY(0px);
+      background-color: #000;
+      box-shadow: 
+        0px 4px 10px -5px rgba(255, 255, 255, 0.3),
+        inset 0px 1px 1px rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+
+<body class="bg-[#050505] flex items-center justify-center min-h-screen font-['Poppins']">
+
+  <div class="btn-wrapper">
+    <button class="btn px-6 py-3 focus:outline-none" type="button">
+      
+      <!-- Logo "X" de Marca -->
+      <svg class="btn-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 4L20 20" stroke="currentColor" />
+        <path d="M20 4L16 8" stroke="currentColor" />
+        <path d="M8 16L4 20" stroke="currentColor" />
+      </svg>
+
+      <div class="txt-wrapper">
+        <div class="txt-1">
+          <span class="btn-letter" style="--i:1">X</span>
+          <span class="btn-letter" style="--i:2">a</span>
+          <span class="btn-letter" style="--i:3">v</span>
+          <span class="btn-letter" style="--i:4">i</span>
+          <span class="btn-letter" style="--i:5">e</span>
+          <span class="btn-letter" style="--i:6">r</span>
+          <span class="btn-letter" style="--i:7">,</span>
+          <span class="btn-letter" style="--i:8">&nbsp;</span>
+          <span class="btn-letter" style="--i:9">T</span>
+          <span class="btn-letter" style="--i:10">h</span>
+          <span class="btn-letter" style="--i:11">e</span>
+          <span class="btn-letter" style="--i:12">&nbsp;</span>
+          <span class="btn-letter" style="--i:13">G</span>
+          <span class="btn-letter" style="--i:14">o</span>
+          <span class="btn-letter" style="--i:15">a</span>
+          <span class="btn-letter" style="--i:16">t</span>
+          <span class="btn-letter" style="--i:17">.</span>
+        </div>
+      </div>
+    </button>
+  </div>
+
+</body>
+
+</html>
