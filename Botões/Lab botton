@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Lab Botton</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8fafc;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .button {
+            cursor: pointer;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden !important;
+            transition: all 0.25s ease;
+            
+            /* Verde primário mais claro com esfumaçado branco embaixo */
+            background: radial-gradient(65.28% 65.28% at 50% 100%,
+                rgba(255, 255, 255, 0.4) 0%,
+                rgba(255, 255, 255, 0) 100%),
+              linear-gradient(180deg, #10b981, #059669);
+            
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            padding: 12px 18px;
+            min-height: 48px;
+            min-width: 150px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+        }
+
+        /* Camada de Carregamento (Verde mais vibrante ao passar o mouse) */
+        .button::before {
+            content: "";
+            background: linear-gradient(180deg, #34d399, #10b981);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 10px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+        }
+
+        .button:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Efeito de Brilho (Shimmer) discreto */
+        .button::after {
+            content: '';
+            background: linear-gradient(
+                to right, 
+                transparent, 
+                rgba(255, 255, 255, 0.1), 
+                transparent
+            );
+            width: 120px;
+            height: 200%;
+            position: absolute;
+            top: -50%;
+            transform: skewX(-20deg);
+            z-index: 2;
+            pointer-events: none;
+            animation: shinery 5s infinite ease-in-out;
+        }
+
+        @keyframes shinery {
+            0% { left: -150%; opacity: 0; }
+            20% { opacity: 0.5; }
+            40% { left: 150%; opacity: 0; }
+            100% { left: 150%; opacity: 0; }
+        }
+
+        .button:active {
+            transform: scale(0.96);
+        }
+
+        .points_wrapper {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            position: absolute;
+            z-index: 3;
+        }
+
+        .points_wrapper .point {
+            bottom: -10px;
+            position: absolute;
+            animation: floating-points infinite ease-in-out;
+            width: 2px;
+            height: 2px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+        }
+
+        @keyframes floating-points {
+            0% { transform: translateY(0); opacity: 1; }
+            85% { opacity: 0; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+
+        .points_wrapper .point:nth-child(1) { left: 10%; animation-duration: 2s; animation-delay: 0.1s; }
+        .points_wrapper .point:nth-child(2) { left: 30%; animation-duration: 2.2s; animation-delay: 0.4s; }
+        .points_wrapper .point:nth-child(3) { left: 25%; animation-duration: 1.8s; }
+        .points_wrapper .point:nth-child(4) { left: 44%; animation-duration: 2.1s; animation-delay: 0.2s; }
+        .points_wrapper .point:nth-child(5) { left: 60%; animation-duration: 1.9s; }
+        .points_wrapper .point:nth-child(6) { left: 75%; animation-duration: 2.3s; animation-delay: 0.5s; }
+        .points_wrapper .point:nth-child(7) { left: 88%; animation-duration: 2s; }
+        .points_wrapper .point:nth-child(8) { left: 58%; animation-duration: 2.2s; animation-delay: 0.3s; }
+        .points_wrapper .point:nth-child(9) { left: 95%; animation-duration: 2.5s; }
+        .points_wrapper .point:nth-child(10) { left: 15%; animation-duration: 1.7s; animation-delay: 0.2s; }
+
+        .inner {
+            z-index: 4;
+            gap: 10px;
+            position: relative;
+            width: 100%;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            transition: all 0.4s ease;
+        }
+
+        /* Texto fica levemente mais escuro para contraste quando o verde claro carregar */
+        .button:hover .inner {
+            color: #064e3b;
+        }
+
+        .inner svg.icon {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+        /* Efeito de desenho inicial e indicação infinita */
+        .button:hover svg.icon path {
+            animation: dash 0.8s linear forwards;
+        }
+
+        .button:hover svg.icon {
+            animation: indicate 1.1s ease-in-out infinite 0.8s;
+        }
+
+        @keyframes dash {
+            0% { stroke-dasharray: 0, 20; stroke-dashoffset: 0; }
+            100% { stroke-dasharray: 20, 0; stroke-dashoffset: -10; }
+        }
+
+        @keyframes indicate {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+    </style>
+</head>
+<body>
+
+    <button type="button" class="button">
+        <div class="points_wrapper">
+            <i class="point"></i><i class="point"></i><i class="point"></i><i class="point"></i><i class="point"></i>
+            <i class="point"></i><i class="point"></i><i class="point"></i><i class="point"></i><i class="point"></i>
+        </div>
+
+        <span class="inner">
+            Lab Botton
+            <svg
+                class="icon"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2.5"
+            >
+                <path d="M5 12h14"></path>
+                <path d="m12 5 7 7-7 7"></path>
+            </svg>
+        </span>
+    </button>
+
+</body>
+</html>
